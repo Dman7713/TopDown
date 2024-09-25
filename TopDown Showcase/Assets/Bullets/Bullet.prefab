@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.14, y: -0.070125, z: 0}
-  m_LocalScale: {x: 0.6958096, y: 0.6958096, z: 0.6958096}
+  m_LocalScale: {x: 0.36421898, y: 0.36421898, z: 0.36421898}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -120,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.010040745, y: -0.003346935}
+  m_Offset: {x: 0.016220257, y: -0.00031901896}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5649018, y: 0.24359828}
+  m_Size: {x: 0.4115204, y: 0.1951518}
   m_EdgeRadius: 0
 --- !u!50 &6734898005995676505
 Rigidbody2D:
@@ -223,8 +223,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.24025726
-        value: 0.28360558
+        time: 0.23802948
+        value: 0.41531944
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -236,7 +236,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.8197487, b: 0, a: 1}
+      key0: {r: 1, g: 0.91590106, b: 0.33490568, a: 1}
       key1: {r: 0, g: 0, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -244,7 +244,7 @@ TrailRenderer:
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
+      ctime0: 39899
       ctime1: 65535
       ctime2: 0
       ctime3: 0
