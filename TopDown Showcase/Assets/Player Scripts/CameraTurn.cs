@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CameraTurn : MonoBehaviour
 {
-    public float speed = 5f;  // Speed at which the player moves
-    public Transform front;    // Assign the front object in the Inspector
+    public float speed = 5f; // Speed at which the player moves
 
     void Update()
     {
@@ -22,13 +21,7 @@ public class CameraTurn : MonoBehaviour
         // Calculate the angle to rotate towards the mouse
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Rotate the front of the object to face the mouse
-        if (front != null)
-        {
-            front.rotation = Quaternion.Euler(new Vector3(0, 0, angle));  // Align front to the mouse direction
-        }
-
-        // Optionally, you can rotate the object itself to face the mouse as well
+        // Rotate the object itself to face the mouse
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 }

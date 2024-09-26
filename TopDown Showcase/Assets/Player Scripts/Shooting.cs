@@ -5,22 +5,39 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     public GameObject bulletPrefab; // The bullet prefab assigned in the Inspector
-    public GameObject fireEffectPrefab; // The effect prefab assigned in the Inspector
     public Transform shootingPoint; // The point from which bullets are shot (assigned in Inspector)
     public float fireRate = 0.2f; // Time between consecutive shots
     public float bulletSpeed = 20f; // Speed at which the bullet moves
-    public float spreadAngle = 5f; // Maximum angle for bullet spread
-    public float fireEffectDuration = 1f; // Duration of the fire effect
+    public SpriteRenderer playerSpriteRenderer; // Reference to the player's SpriteRenderer
+    public Sprite idleSprite; // The player's idle or walking sprite
+    public Sprite shootingSprite; // The sprite to show when the player is shooting
+    public float spriteSwitchInterval = 0.1f; // Time to switch between sprites
 
     private float nextFireTime = 0f; // Time at which the next shot can be fired
+    private bool isFiring = false; // Is the player holding down the fire button?
+    private bool isSwitchingSprites = false; // Is the sprite switching coroutine running?
 
     private void Update()
     {
-        // Check if left mouse button (or another input key) is pressed and the gun can fire
-        if (Input.GetMouseButton(0) && Time.time > nextFireTime)
+        // Check if the left mouse button is held down and the gun can fire
+        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
             Shoot();
             nextFireTime = Time.time + fireRate;
+
+            // Start switching between the sprites if not already doing so
+            if (!isSwitchingSprites)
+            {
+                StartCoroutine(SwitchSpritesBackAndForth());
+            }
+        }
+        else if (!Input.GetMouseButton(0))
+        {
+            // Stop firing when the mouse button is released
+            isFiring = false;
+            isSwitchingSprites = false;
+            StopAllCoroutines(); // Stop switching sprites
+            playerSpriteRenderer.sprite = idleSprite; // Reset to idle sprite
         }
     }
 
@@ -29,40 +46,35 @@ public class Gun : MonoBehaviour
         // Instantiate the bullet at the shooting point's position and rotation
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
 
-        // Get the Rigidbody2D component from the bullet
+        // Set the bullet's velocity
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            // Get the mouse position in world space
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;  // Ensure the z-coordinate is zero for 2D
 
-            // Calculate the shooting direction towards the mouse position
             Vector2 shootDirection = (mousePosition - shootingPoint.position).normalized;
-
-            // Apply random spread to the shooting direction
-            float randomSpread = Random.Range(-spreadAngle, spreadAngle);
-            shootDirection = Quaternion.Euler(0, 0, randomSpread) * shootDirection;
-
-            // Set the velocity of the bullet to move in the calculated direction
             rb.velocity = shootDirection * bulletSpeed;
-        }
-        else
-        {
-            Debug.LogError("Rigidbody2D not found on the bullet prefab.");
-        }
-
-        // Instantiate the fire effect at the shooting point and set it as a child
-        if (fireEffectPrefab != null)
-        {
-            GameObject fireEffect = Instantiate(fireEffectPrefab, shootingPoint.position, shootingPoint.rotation, shootingPoint);
-            StartCoroutine(DestroyFireEffectAfterDuration(fireEffect, fireEffectDuration));
         }
     }
 
-    private IEnumerator DestroyFireEffectAfterDuration(GameObject fireEffect, float duration)
+    private IEnumerator SwitchSpritesBackAndForth()
     {
-        yield return new WaitForSeconds(duration);
-        Destroy(fireEffect);
+        isSwitchingSprites = true;
+        isFiring = true;
+
+        while (isFiring)
+        {
+            // Switch to the shooting sprite
+            playerSpriteRenderer.sprite = shootingSprite;
+            yield return new WaitForSeconds(spriteSwitchInterval);
+
+            // Switch to the idle sprite
+            playerSpriteRenderer.sprite = idleSprite;
+            yield return new WaitForSeconds(spriteSwitchInterval);
+        }
+
+        // Once the firing stops, reset to idle
+        isSwitchingSprites = false;
     }
 }
