@@ -9,8 +9,8 @@ public class BulletDestroy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the object the bullet collides with has the tag "Wall" or "Enemy"
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall"))
+        // Check if the object the bullet collides with has the tag "Wall", "Enemy", or "Player"
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Player"))
         {
             // Instantiate the destruction effect prefab at the bullet's position and rotation
             if (destructionEffectPrefab != null)

@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 3501799789873070466}
   - component: {fileID: 5164823634530171612}
   - component: {fileID: 4149537845788208772}
+  - component: {fileID: 797905010508355902}
   m_Layer: 0
   m_Name: Enemy Bullet
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,6 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5575308787ab1c343adcc944a74e7b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destructionEffectPrefab: {fileID: 0}
+  destroyDelay: 0.5
 --- !u!96 &4149537845788208772
 TrailRenderer:
   serializedVersion: 3
@@ -276,3 +279,17 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &797905010508355902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4665389502209800557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5575308787ab1c343adcc944a74e7b20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destructionEffectPrefab: {fileID: 0}
+  destroyDelay: 0.5

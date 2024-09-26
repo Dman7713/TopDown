@@ -1,60 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Number of bullets required to destroy this object
-    public int hitPoints = 1;
+    public int hitPoints = 1; // Number of hits required to destroy this object
 
-    // Reference to the coin prefab
-    public GameObject coinPrefab;
+    // References to item prefabs
+    public GameObject itemPrefab1;
+    public float chanceToSpawnItem1 = 0.5f; // Chance of spawning item 1
 
-    // The position offset where the coin will be spawned
-    public Vector3 coinSpawnOffset = new Vector3(0, 0, 0);
+    public GameObject itemPrefab2;
+    public float chanceToSpawnItem2 = 0.5f; // Chance of spawning item 2
 
-    // Reference to the particle system prefab
-    public GameObject deathEffectPrefab; // Assign the particle system prefab in the Inspector
+    public GameObject deathEffectPrefab; // Reference to the particle system prefab
+    public float deathEffectDuration = 2f; // Duration for which the death effect plays
 
-    // Duration for which the death effect plays
-    public float deathEffectDuration = 2f; // Default duration
+    private bool isDead = false; // Track if the enemy is already dead
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the object we collided with has a tag "Bullet"
-        if (collision.gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Bullet") && !isDead)
         {
-            // Reduce hitPoints by 1
             hitPoints--;
 
-            // Check if hitPoints has reached 0 or below
             if (hitPoints <= 0)
             {
-                // Spawn the coin
-                SpawnCoin();
-
-                // Play death effect
-                PlayDeathEffect();
-
-                // Destroy this game object
-                Destroy(gameObject);
+                HandleDeath(); // Handle the enemy death logic
             }
         }
     }
 
-    private void SpawnCoin()
+    private void HandleDeath()
     {
-        if (coinPrefab != null)
-        {
-            // Calculate the spawn position
-            Vector3 spawnPosition = transform.position + coinSpawnOffset;
+        if (isDead) return; // Prevent double processing
 
-            // Instantiate the coin prefab at the calculated position
-            Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
-        }
-        else
+        isDead = true; // Mark as dead to prevent further processing
+
+        SpawnLoot();
+        PlayDeathEffect();
+        Destroy(gameObject); // Destroy the enemy object
+    }
+
+    private void SpawnLoot()
+    {
+        float randomValue = Random.value;
+
+        if (randomValue < chanceToSpawnItem1)
         {
-            Debug.LogWarning("Coin Prefab is not assigned in the Inspector.");
+            Instantiate(itemPrefab1, transform.position, Quaternion.identity);
+        }
+        else if (randomValue < chanceToSpawnItem1 + chanceToSpawnItem2)
+        {
+            Instantiate(itemPrefab2, transform.position, Quaternion.identity);
         }
     }
 
@@ -62,15 +58,8 @@ public class EnemyController : MonoBehaviour
     {
         if (deathEffectPrefab != null)
         {
-            // Instantiate the particle system prefab at the enemy's position
             GameObject deathEffect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
-
-            // Optionally, destroy the particle effect after it has finished playing
-            Destroy(deathEffect, deathEffectDuration); // Use the adjustable duration
-        }
-        else
-        {
-            Debug.LogWarning("Death Effect Prefab is not assigned in the Inspector.");
+            Destroy(deathEffect, deathEffectDuration);
         }
     }
 }
