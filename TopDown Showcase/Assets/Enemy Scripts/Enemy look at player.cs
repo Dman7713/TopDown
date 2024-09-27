@@ -29,7 +29,7 @@ public class EnemyLookAtPlayer2D : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             // Apply the rotation to the enemy, adjust by adding 180 degrees
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + -90));
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 0));
         }
     }
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 17ed7f3a2f86fb44dafb9e61b5df8e7f
+guid: b5e1b9e7438363b4185e6f4294c93f92
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Health bar_0
+      name: tile 2_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 102
-        width: 89
-        height: 23
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4033731713e3e2b40979bf41c2ed05e8
-      internalID: 1823399089
+      spriteID: f752deb614f192f43b24764d4a7f1726
+      internalID: -1785895615
       vertices: []
       indices: 
       edges: []
@@ -128,7 +128,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Health bar_0: 1823399089
+      tile 2_0: -1785895615
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
