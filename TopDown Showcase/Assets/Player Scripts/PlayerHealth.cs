@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -26,8 +24,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
-
         // Check if the player hits an enemy
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -47,7 +43,10 @@ public class PlayerHealth : MonoBehaviour
     private void TakeDamage(float amount)
     {
         health -= amount; // Decrease health by the specified amount
+        health = Mathf.Max(health, 0); // Ensure health doesn't go below zero
         UpdateHealthBar(); // Update health bar
+
+        Debug.Log($"Current Health: {health}"); // Log current health
 
         // Check if health falls below or equal to zero
         if (health <= 0)
@@ -59,6 +58,7 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player has died.");
+        // Here you could reload the scene or handle death logic if needed
         RestartGame(); // Restart the game instead of loading a level
     }
 

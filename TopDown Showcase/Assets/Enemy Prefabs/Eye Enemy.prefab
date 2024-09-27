@@ -81,12 +81,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 458418721, guid: 105d1a9162c0cac438e50d39f3ee99de, type: 3}
+  m_Sprite: {fileID: -1101526494, guid: 7668c13de8f05f24d834099b2885ecc1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.84375, y: 0.625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -155,8 +155,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.875, y: 0.65625}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.8125, y: 0.625}
+    newSize: {x: 0.84375, y: 0.625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 655134662196245896}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d247f06bb1952a34a867c34ae06857f4, type: 3}
   m_Name: 
@@ -205,8 +205,11 @@ MonoBehaviour:
   prefab: {fileID: 4665389502209800557, guid: d782b1ff135f26b4c8a4cb46f19ab971, type: 3}
   shootSpeed: 5
   bulletLifetime: 30
-  shootDelay: 0.5
+  shootDelay: 1
   firePoint: {fileID: 6530731139883525266}
+  spriteRenderer: {fileID: 5310119958620689852}
+  shootingSprite: {fileID: -501560151, guid: 7668c13de8f05f24d834099b2885ecc1, type: 3}
+  shootingSpriteDuration: 0.5
 --- !u!114 &1340681566556499791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,9 +229,9 @@ MonoBehaviour:
   chanceToSpawnItem2: 0.2
   deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
   deathEffectDuration: 0.5
-  damagedSprite: {fileID: 0}
+  damagedSprite: {fileID: -1596599863, guid: a92e062238c4e0446adfcdffef9a4662, type: 3}
   damageSpriteDuration: 0.5
-  bloodPrefab: {fileID: 0}
+  bloodPrefab: {fileID: 2865085146451600835, guid: b94a03a7b592c6a47a5537e6f9e1d806, type: 3}
 --- !u!1 &1699568484652106183
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +288,7 @@ Transform:
   m_GameObject: {fileID: 5795986425527038152}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03, y: 1.25, z: 0.07321669}
+  m_LocalPosition: {x: 0.665, y: 0.003, z: 0.07321669}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

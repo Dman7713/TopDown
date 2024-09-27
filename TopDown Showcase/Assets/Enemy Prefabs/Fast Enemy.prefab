@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329a1ff9dc12d2242a0fc9093413d2d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseSpeed: 5
+  chaseSpeed: 8
   chaseTriggerDistance: 100
 --- !u!114 &9214625174212233838
 MonoBehaviour:
@@ -207,6 +207,9 @@ MonoBehaviour:
   bulletLifetime: 30
   shootDelay: 0.5
   firePoint: {fileID: 6530731139883525266}
+  spriteRenderer: {fileID: 0}
+  shootingSprite: {fileID: 0}
+  shootingSpriteDuration: 1
 --- !u!114 &1340681566556499791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,9 +224,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 2
   itemPrefab1: {fileID: 9178902870975445760, guid: 48c3fbe61f7983a4ea1de6642e21c912, type: 3}
-  chanceToSpawnItem1: 0.4
+  chanceToSpawnItem1: 0.2
   itemPrefab2: {fileID: 343782855003445871, guid: be03aaa257660a441bbf762d5f604f53, type: 3}
-  chanceToSpawnItem2: 0.2
+  chanceToSpawnItem2: 0.1
   deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
   deathEffectDuration: 0.5
   damagedSprite: {fileID: 305458680, guid: 105d1a9162c0cac438e50d39f3ee99de, type: 3}

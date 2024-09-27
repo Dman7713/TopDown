@@ -1,32 +1,81 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // For scene management
 
 public class PauseMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetComponent<Canvas>().enabled = false;
-    }
+    public GameObject pauseMenuUI; // Reference to the pause menu UI panel
+    private bool isPaused = false;
 
-    // Update is called once per frame
+    [SerializeField]
+    private GameObject player; // Reference to the player GameObject
+
     void Update()
     {
-        //IF the escape key is pressed
-        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 1)
+        // Check for pause input (Escape key or P key)
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
-            //display the pause menu
-            GetComponent<Canvas>().enabled = true;
-            //pause the game
-            Time.timeScale = 0;
+            if (isPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0)
+    }
+
+    public void Resume()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f; // Resume the game
+        SetPlayerScriptsEnabled(true); // Enable player scripts
+        isPaused = false;
+    }
+
+    public void Pause()
+    {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f; // Pause the game
+        SetPlayerScriptsEnabled(false); // Disable player scripts
+        isPaused = true;
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f; // Ensure the game is running
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Restart the current scene
+    }
+
+    public void Quit()
+    {
+        Time.timeScale = 1f; // Ensure the game is running
+        Application.Quit(); // Quit the application
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in the editor
+#endif
+    }
+
+    public bool IsPaused()
+    {
+        return isPaused; // Returns the current pause state
+    }
+
+    private void SetPlayerScriptsEnabled(bool isEnabled)
+    {
+        if (player != null) // Check if player reference is set
         {
-            //hide the pause canvas again
-            GetComponent <Canvas>().enabled = false;
-            //reset the time scale to 1
-            Time.timeScale = 1;
+            // Get all MonoBehaviour components on the player and enable/disable them based on isEnabled
+            MonoBehaviour[] playerScripts = player.GetComponents<MonoBehaviour>();
+            foreach (var script in playerScripts)
+            {
+                script.enabled = isEnabled;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Player GameObject is not assigned in the PauseMenu script.");
         }
     }
 }
