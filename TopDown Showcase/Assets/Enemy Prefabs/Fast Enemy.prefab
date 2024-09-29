@@ -226,7 +226,7 @@ MonoBehaviour:
   itemPrefab1: {fileID: 9178902870975445760, guid: 48c3fbe61f7983a4ea1de6642e21c912, type: 3}
   chanceToSpawnItem1: 0.2
   itemPrefab2: {fileID: 343782855003445871, guid: be03aaa257660a441bbf762d5f604f53, type: 3}
-  chanceToSpawnItem2: 0.1
+  chanceToSpawnItem2: 0.15
   deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
   deathEffectDuration: 0.5
   damagedSprite: {fileID: 305458680, guid: 105d1a9162c0cac438e50d39f3ee99de, type: 3}

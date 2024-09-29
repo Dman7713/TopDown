@@ -224,9 +224,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 2
   itemPrefab1: {fileID: 9178902870975445760, guid: 48c3fbe61f7983a4ea1de6642e21c912, type: 3}
-  chanceToSpawnItem1: 0.4
+  chanceToSpawnItem1: 0.1
   itemPrefab2: {fileID: 343782855003445871, guid: be03aaa257660a441bbf762d5f604f53, type: 3}
-  chanceToSpawnItem2: 0.2
+  chanceToSpawnItem2: 0.1
   deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
   deathEffectDuration: 0.5
   damagedSprite: {fileID: 0}

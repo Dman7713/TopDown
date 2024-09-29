@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour
 
         isDead = true; // Mark as dead to prevent further processing
 
-        // Play death sound
+        // Play death sound and destroy the AudioSource after it's done
         PlayDeathSound();
 
         // Add 100 points to the score
@@ -79,14 +79,27 @@ public class EnemyController : MonoBehaviour
         SpawnLoot();
         PlayDeathEffect();
         SpawnBlood(); // Spawn blood sprite on the ground
-        Destroy(gameObject); // Destroy the enemy object
+
+        Destroy(gameObject); // Immediately destroy the enemy
     }
 
     private void PlayDeathSound()
     {
-        if (audioSource != null && deathSound != null)
+        if (deathSound != null)
         {
-            audioSource.PlayOneShot(deathSound); // Play the death sound
+            // Create a temporary GameObject to play the sound
+            GameObject tempAudio = new GameObject("TempAudio");
+            tempAudio.transform.position = transform.position;
+
+            // Add an AudioSource component and set its clip and volume
+            AudioSource audioSource = tempAudio.AddComponent<AudioSource>();
+            audioSource.clip = deathSound;
+            audioSource.volume = 1.0f; // Set the volume here (1.0 for full volume)
+            audioSource.spatialBlend = 0.0f; // Play in 2D (set to 1.0 for 3D sound)
+
+            // Play the sound and destroy the temporary GameObject after the sound finishes
+            audioSource.Play();
+            Destroy(tempAudio, deathSound.length);
         }
     }
 
