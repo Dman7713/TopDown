@@ -17,6 +17,7 @@ public class Gun : MonoBehaviour
     public int maxAmmoSize = 100; // Maximum ammo capacity
 
     public TMP_Text ammoText; // Use TMP_Text for TextMeshPro
+    public AudioSource shootSound; // Audio source for gunshot sound
 
     private float nextFireTime = 0f; // Time at which the next shot can be fired
     private bool isFiring = false; // Is the player holding down the fire button?
@@ -55,6 +56,12 @@ public class Gun : MonoBehaviour
     {
         // Decrease ammo count
         currentAmmo--;
+
+        // Play the shooting sound if it's assigned
+        if (shootSound != null)
+        {
+            shootSound.Play();
+        }
 
         // Instantiate the bullet at the shooting point's position and rotation
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);

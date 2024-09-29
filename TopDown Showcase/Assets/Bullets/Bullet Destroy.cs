@@ -12,11 +12,25 @@ public class BulletDestroy : MonoBehaviour
     [SerializeField]
     float bloodDuration = 1f; // Duration for how long the blood prefab should stay
 
+    public AudioClip collisionSound; // Sound to play on collision
+    private AudioSource audioSource; // Reference to the AudioSource component
+
+    private void Start()
+    {
+        // Add an AudioSource component to the bullet if it doesn't have one
+        audioSource = gameObject.AddComponent<AudioSource>();
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the object the bullet collides with has the tag "Wall", "Enemy", or "Player"
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Collision detected with: " + collision.gameObject.name); // Debugging line
+
+            // Play the collision sound
+            PlayCollisionSound();
+
             // Instantiate the destruction effect prefab at the bullet's position and rotation
             if (destructionEffectPrefab != null)
             {
@@ -33,6 +47,18 @@ public class BulletDestroy : MonoBehaviour
 
             // Immediately destroy the bullet
             Destroy(gameObject);
+        }
+    }
+
+    private void PlayCollisionSound()
+    {
+        if (audioSource != null && collisionSound != null)
+        {
+            audioSource.PlayOneShot(collisionSound); // Play the collision sound
+        }
+        else
+        {
+            Debug.LogWarning("Audio source or collision sound is not set."); // Warning if sound is not playing
         }
     }
 }

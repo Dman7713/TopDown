@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -331081176, guid: 127b7756821ef0b46a1e343b56e65963, type: 3}
-  m_Color: {r: 0.8415094, g: 0.83440924, b: 0.6335137, a: 1}
+  m_Color: {r: 0.8396226, g: 0.8149057, b: 0.16237983, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -173,3 +173,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destructionEffectPrefab: {fileID: 0}
   destroyDelay: 0.5
+  bloodPrefab: {fileID: 0}
+  bloodDuration: 1
+  collisionSound: {fileID: 8300000, guid: 8e6b07be2dbc2e4419c93315c135f8e5, type: 3}

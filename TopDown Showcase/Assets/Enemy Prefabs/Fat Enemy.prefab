@@ -207,6 +207,9 @@ MonoBehaviour:
   bulletLifetime: 30
   shootDelay: 0.5
   firePoint: {fileID: 6530731139883525266}
+  spriteRenderer: {fileID: 0}
+  shootingSprite: {fileID: 0}
+  shootingSpriteDuration: 1
 --- !u!114 &1340681566556499791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +232,7 @@ MonoBehaviour:
   damagedSprite: {fileID: 0}
   damageSpriteDuration: 0.5
   bloodPrefab: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 8e6b07be2dbc2e4419c93315c135f8e5, type: 3}
 --- !u!1 &1699568484652106183
 GameObject:
   m_ObjectHideFlags: 0

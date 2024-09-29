@@ -19,6 +19,9 @@ public class EnemyController : MonoBehaviour
 
     public GameObject bloodPrefab; // Blood sprite prefab to instantiate when the enemy dies
 
+    public AudioClip deathSound; // Sound to play on death
+    private AudioSource audioSource; // Reference to the AudioSource component
+
     private SpriteRenderer spriteRenderer;
     private Sprite originalSprite; // Store the original sprite
     private bool isDead = false; // Track if the enemy is already dead
@@ -27,6 +30,8 @@ public class EnemyController : MonoBehaviour
     {
         // Cache the SpriteRenderer and original sprite
         spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource = gameObject.AddComponent<AudioSource>(); // Add an AudioSource if missing
+
         if (spriteRenderer != null)
         {
             originalSprite = spriteRenderer.sprite;
@@ -61,10 +66,28 @@ public class EnemyController : MonoBehaviour
 
         isDead = true; // Mark as dead to prevent further processing
 
+        // Play death sound
+        PlayDeathSound();
+
+        // Add 100 points to the score
+        ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager != null)
+        {
+            scoreManager.AddScore(100); // Add 100 points to the score
+        }
+
         SpawnLoot();
         PlayDeathEffect();
         SpawnBlood(); // Spawn blood sprite on the ground
         Destroy(gameObject); // Destroy the enemy object
+    }
+
+    private void PlayDeathSound()
+    {
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound); // Play the death sound
+        }
     }
 
     private void SpawnLoot()

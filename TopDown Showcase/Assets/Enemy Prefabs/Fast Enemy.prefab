@@ -232,6 +232,7 @@ MonoBehaviour:
   damagedSprite: {fileID: 305458680, guid: 105d1a9162c0cac438e50d39f3ee99de, type: 3}
   damageSpriteDuration: 0.2
   bloodPrefab: {fileID: 2865085146451600835, guid: b94a03a7b592c6a47a5537e6f9e1d806, type: 3}
+  deathSound: {fileID: 8300000, guid: 8e6b07be2dbc2e4419c93315c135f8e5, type: 3}
 --- !u!1 &1699568484652106183
 GameObject:
   m_ObjectHideFlags: 0
