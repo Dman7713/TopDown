@@ -32,12 +32,18 @@ public class EnemySpawner : MonoBehaviour
     public float waveInterval = 5f;       // Time between waves
     public float enemyMultiplier = 1.5f;  // Multiplier for enemies each wave
 
+    public float enemyLifetime = 3f * 60f; // Time before enemies are destroyed (in seconds)
+
+    public GameObject deathEffectPrefab;   // Prefab to instantiate when an enemy dies
+
     private int currentWave = 1;          // The current wave number
+    private List<GameObject> activeEnemies = new List<GameObject>(); // Track active enemies
 
     private void Start()
     {
         // Start the wave spawning coroutine
         StartCoroutine(SpawnWaves());
+        StartCoroutine(DestroyEnemiesAfterTime(enemyLifetime)); // Use configurable enemy lifetime
     }
 
     private IEnumerator SpawnWaves()
@@ -78,7 +84,8 @@ public class EnemySpawner : MonoBehaviour
         if (enemyPrefab != null)
         {
             // Instantiate the enemy prefab at the random position
-            Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+            GameObject enemyInstance = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+            activeEnemies.Add(enemyInstance); // Track the spawned enemy
         }
     }
 
@@ -159,5 +166,27 @@ public class EnemySpawner : MonoBehaviour
         }
 
         return null; // Fallback, shouldn't hit this if chances are set correctly
+    }
+
+    private IEnumerator DestroyEnemiesAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time); // Wait for the specified time
+
+        // Destroy all active enemies in the spawn area
+        foreach (GameObject enemy in activeEnemies)
+        {
+            if (enemy != null && spawnArea.OverlapPoint(enemy.transform.position))
+            {
+                // Instantiate the death effect prefab at the enemy's position
+                if (deathEffectPrefab != null)
+                {
+                    Instantiate(deathEffectPrefab, enemy.transform.position, Quaternion.identity);
+                }
+
+                Destroy(enemy); // Destroy the enemy
+            }
+        }
+
+        activeEnemies.Clear(); // Clear the list of active enemies
     }
 }

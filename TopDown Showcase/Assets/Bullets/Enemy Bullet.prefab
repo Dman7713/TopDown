@@ -171,7 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5575308787ab1c343adcc944a74e7b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destructionEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
+  destructionEffectPrefab: {fileID: 1943361834520356517, guid: 4ee597265609abb4190ad889ba4b0ed3, type: 3}
   destroyDelay: 0.5
   bloodPrefab: {fileID: 2865085146451600835, guid: b94a03a7b592c6a47a5537e6f9e1d806, type: 3}
   bloodDuration: 5
+  collisionSound: {fileID: 0}

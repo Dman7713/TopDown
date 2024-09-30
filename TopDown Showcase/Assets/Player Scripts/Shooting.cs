@@ -18,6 +18,7 @@ public class Gun : MonoBehaviour
 
     public TMP_Text ammoText; // Use TMP_Text for TextMeshPro
     public AudioSource shootSound; // Audio source for gunshot sound
+    public AudioSource outOfAmmoSound; // Audio source for out of ammo sound
 
     private float nextFireTime = 0f; // Time at which the next shot can be fired
     private bool isFiring = false; // Is the player holding down the fire button?
@@ -31,15 +32,27 @@ public class Gun : MonoBehaviour
     private void Update()
     {
         // Check if the left mouse button is held down and the gun can fire
-        if (Input.GetMouseButton(0) && Time.time >= nextFireTime && currentAmmo > 0)
+        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
-            Shoot();
-            nextFireTime = Time.time + fireRate;
-
-            // Start switching between the sprites if not already doing so
-            if (!isSwitchingSprites)
+            if (currentAmmo > 0)
             {
-                StartCoroutine(SwitchSpritesBackAndForth());
+                Shoot();
+                nextFireTime = Time.time + fireRate;
+
+                // Start switching between the sprites if not already doing so
+                if (!isSwitchingSprites)
+                {
+                    StartCoroutine(SwitchSpritesBackAndForth());
+                }
+            }
+            else
+            {
+                // Play out-of-ammo sound if ammo is zero and sound is assigned
+                if (outOfAmmoSound != null)
+                {
+                    Debug.Log("Out of ammo sound should play"); // Debug log
+                    outOfAmmoSound.Play();
+                }
             }
         }
         else if (!Input.GetMouseButton(0))
