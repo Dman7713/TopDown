@@ -14,6 +14,6 @@ public class CursorController : MonoBehaviour
         // Correct way to create a Vector2
         cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
         // Correct spelling of Cursor
-        Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
+        //Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
     }
 }

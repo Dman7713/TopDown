@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // For scene management
-using UnityEngine.UI; // For UI components
 
 public class StartMenu : MonoBehaviour
 {
@@ -11,6 +10,16 @@ public class StartMenu : MonoBehaviour
         // Pause the game at the start
         Time.timeScale = 0f; // Set time scale to 0 to pause the game
         startMenuUI.SetActive(true); // Ensure the start menu UI is active
+    }
+
+    private void Update()
+    {
+        // Prevent Escape key from closing the menu
+        if (startMenuUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Do nothing (or you can provide feedback)
+            return;
+        }
     }
 
     // Method to start the game

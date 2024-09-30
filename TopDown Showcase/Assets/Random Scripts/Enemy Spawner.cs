@@ -38,6 +38,7 @@ public class EnemySpawner : MonoBehaviour
 
     private int currentWave = 1;          // The current wave number
     private List<GameObject> activeEnemies = new List<GameObject>(); // Track active enemies
+    private bool canSpawn = true;          // Flag to control spawning
 
     private void Start()
     {
@@ -48,7 +49,7 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnWaves()
     {
-        while (true)
+        while (canSpawn)
         {
             // Spawn the enemies for the current wave
             yield return StartCoroutine(SpawnEnemiesForWave(currentWave));
@@ -66,8 +67,15 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < enemiesPerWave; i++)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(spawnInterval); // Wait for the specified interval between spawns
+            if (canSpawn)
+            {
+                SpawnEnemy();
+                yield return new WaitForSeconds(spawnInterval); // Wait for the specified interval between spawns
+            }
+            else
+            {
+                yield break; // Stop spawning if canSpawn is false
+            }
         }
     }
 
@@ -171,6 +179,8 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator DestroyEnemiesAfterTime(float time)
     {
         yield return new WaitForSeconds(time); // Wait for the specified time
+
+        canSpawn = false; // Stop spawning new enemies
 
         // Destroy all active enemies in the spawn area
         foreach (GameObject enemy in activeEnemies)

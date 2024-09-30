@@ -11,6 +11,10 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+        // Check if the game is paused (time scale is 0)
+        if (Time.timeScale == 0f)
+            return; // Exit if the game is paused
+
         // Check for pause input (Escape key or P key)
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
