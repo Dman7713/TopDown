@@ -9,6 +9,15 @@ public class Gun : MonoBehaviour
     public Transform shootingPoint; // The point from which bullets are shot (assigned in Inspector)
     public float fireRate = 0.2f; // Time between consecutive shots
     public float bulletSpeed = 20f; // Speed at which the bullet moves
+
+    [Header("Bullet Spread Settings")]
+    [Tooltip("Maximum angle for bullet spread in degrees.")]
+    public float bulletSpread = 5f; // Maximum angle for bullet spread
+
+    [Header("Shooting Settings")]
+    [Tooltip("Number of bullets to shoot per click.")]
+    public int bulletsPerClick = 1; // Number of bullets shot per click
+
     public SpriteRenderer playerSpriteRenderer; // Reference to the player's SpriteRenderer
     public Sprite idleSprite; // The player's idle or walking sprite
     public Sprite shootingSprite; // The sprite to show when the player is shooting
@@ -36,8 +45,12 @@ public class Gun : MonoBehaviour
         {
             if (currentAmmo > 0)
             {
-                Shoot();
-                nextFireTime = Time.time + fireRate;
+                // Rapid fire when the mouse button is held down
+                for (int i = 0; i < bulletsPerClick; i++)
+                {
+                    Shoot();
+                    nextFireTime = Time.time + (fireRate / bulletsPerClick); // Adjust fire rate based on bullets per click
+                }
 
                 // Start switching between the sprites if not already doing so
                 if (!isSwitchingSprites)
@@ -79,12 +92,16 @@ public class Gun : MonoBehaviour
         // Instantiate the bullet at the shooting point's position and rotation
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
 
-        // Set the bullet's velocity to be straight in the direction the shooting point is facing
+        // Set the bullet's velocity with spread
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            // Use the shooting point's right direction for 2D
-            Vector2 shootDirection = shootingPoint.right;
+            // Calculate a random angle for the bullet spread
+            float spread = Random.Range(-bulletSpread, bulletSpread);
+            // Create a rotation based on the spread
+            Quaternion spreadRotation = Quaternion.Euler(0, 0, spread);
+            // Apply the spread rotation to the shooting direction
+            Vector2 shootDirection = spreadRotation * shootingPoint.right;
             rb.velocity = shootDirection * bulletSpeed;
         }
 

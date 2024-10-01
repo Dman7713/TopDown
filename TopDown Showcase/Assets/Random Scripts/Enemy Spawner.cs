@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    // Enemy prefabs for each minute
-    public GameObject minute1EnemyPrefab; // Enemy to spawn at 1 minute
-    public GameObject minute2EnemyPrefab; // Enemy to spawn at 2 minutes
-    public GameObject minute3EnemyPrefab; // Enemy to spawn at 3 minutes
+    // Boss prefabs
+    public GameObject boss1Prefab; // Boss to spawn at specified time
+    public GameObject boss2Prefab; // Boss to spawn at specified time
+    public GameObject boss3Prefab; // Boss to spawn at specified time
+
+    // Boss spawn times (in seconds)
+    public float boss1SpawnTime = 60f; // Spawn time for boss 1
+    public float boss2SpawnTime = 120f; // Spawn time for boss 2
+    public float boss3SpawnTime = 180f; // Spawn time for boss 3
 
     // Random enemy prefabs and their spawn chances
     public GameObject enemyPrefab1;
@@ -45,6 +50,11 @@ public class EnemySpawner : MonoBehaviour
     private List<GameObject> activeEnemies = new List<GameObject>(); // Track active enemies
     private bool canSpawn = true;          // Flag to control spawning
 
+    // Flags to track if bosses have been spawned
+    private bool boss1Spawned = false;
+    private bool boss2Spawned = false;
+    private bool boss3Spawned = false;
+
     private void Start()
     {
         // Start the wave spawning coroutine
@@ -54,8 +64,6 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnWaves()
     {
-        float elapsedTime = 0f; // Track elapsed time
-
         while (canSpawn)
         {
             // Spawn the enemies for the current wave
@@ -68,21 +76,24 @@ public class EnemySpawner : MonoBehaviour
             // Wait for the wave interval before starting the next wave
             yield return new WaitForSeconds(waveInterval);
 
-            // Update elapsed time
-            elapsedTime += waveInterval;
+            // Get elapsed time using Time.time
+            float elapsedTime = Time.time;
 
-            // Check if it's time to spawn a specific enemy based on the elapsed time
-            if (elapsedTime >= 60f && elapsedTime < 120f) // Minute 1
+            // Spawn bosses at designated times
+            if (!boss1Spawned && elapsedTime >= boss1SpawnTime)
             {
-                SpawnEnemy(minute1EnemyPrefab);
+                SpawnBoss(boss1Prefab);
+                boss1Spawned = true; // Mark as spawned
             }
-            else if (elapsedTime >= 120f && elapsedTime < 180f) // Minute 2
+            else if (!boss2Spawned && elapsedTime >= boss2SpawnTime)
             {
-                SpawnEnemy(minute2EnemyPrefab);
+                SpawnBoss(boss2Prefab);
+                boss2Spawned = true; // Mark as spawned
             }
-            else if (elapsedTime >= 180f) // Minute 3
+            else if (!boss3Spawned && elapsedTime >= boss3SpawnTime)
             {
-                SpawnEnemy(minute3EnemyPrefab);
+                SpawnBoss(boss3Prefab);
+                boss3Spawned = true; // Mark as spawned
             }
         }
     }
@@ -104,7 +115,6 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    // Overloaded method to spawn a specific enemy prefab
     private void SpawnEnemy(GameObject enemyPrefab)
     {
         if (enemyPrefab != null)
@@ -121,7 +131,6 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    // Method to randomly select an enemy prefab based on their spawn chances
     private void SpawnEnemy()
     {
         GameObject enemyPrefab = GetRandomPrefab();
@@ -205,6 +214,22 @@ public class EnemySpawner : MonoBehaviour
         }
 
         return null; // Fallback, shouldn't hit this if chances are set correctly
+    }
+
+    private void SpawnBoss(GameObject bossPrefab)
+    {
+        if (bossPrefab != null)
+        {
+            // Get the bounds of the spawn area
+            Bounds bounds = spawnArea.bounds;
+
+            // Generate a random position on the border of the spawn area
+            Vector2 randomPosition = GetRandomBorderPosition(bounds);
+
+            // Instantiate the boss prefab at the random position
+            GameObject bossInstance = Instantiate(bossPrefab, randomPosition, Quaternion.identity);
+            activeEnemies.Add(bossInstance); // Track the spawned boss
+        }
     }
 
     private IEnumerator DestroyEnemiesAfterTime(float time)

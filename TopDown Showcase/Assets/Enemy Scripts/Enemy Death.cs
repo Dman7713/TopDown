@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class EnemyController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Sprite originalSprite; // Store the original sprite
     private bool isDead = false; // Track if the enemy is already dead
+    private GameManager gameManager; // Reference to the GameManager
 
     private void Start()
     {
@@ -40,6 +42,13 @@ public class EnemyController : MonoBehaviour
         {
             Debug.LogError("SpriteRenderer not found on the enemy object!");
         }
+
+        // Get the GameManager instance
+        gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.ShowHealthBar(this);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -51,6 +60,7 @@ public class EnemyController : MonoBehaviour
             if (hitPoints > 0)
             {
                 StartCoroutine(HandleDamageSprite());
+                gameManager.UpdateHealthBar(hitPoints); // Update health bar on damage
             }
 
             if (hitPoints <= 0)
@@ -80,6 +90,7 @@ public class EnemyController : MonoBehaviour
         PlayDeathEffect();
         SpawnBlood(); // Spawn blood sprite on the ground
 
+        gameManager.HideHealthBar(); // Hide health bar on death
         Destroy(gameObject); // Immediately destroy the enemy
     }
 
