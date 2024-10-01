@@ -23,8 +23,8 @@ public class BulletDestroy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the object the bullet collides with has the tag "Wall", "Enemy", or "Player"
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Player"))
+        // Check if the object the bullet collides with has the tag "Wall" or "Enemy"
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall"))
         {
             Debug.Log("Collision detected with: " + collision.gameObject.name); // Debugging line
 

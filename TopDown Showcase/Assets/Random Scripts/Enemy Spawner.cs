@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    // Enemy prefabs and their respective spawn chances
+    // Enemy prefabs for each minute
+    public GameObject minute1EnemyPrefab; // Enemy to spawn at 1 minute
+    public GameObject minute2EnemyPrefab; // Enemy to spawn at 2 minutes
+    public GameObject minute3EnemyPrefab; // Enemy to spawn at 3 minutes
+
+    // Random enemy prefabs and their spawn chances
     public GameObject enemyPrefab1;
     [Range(0f, 100f)]
     public float spawnChance1;
@@ -49,6 +54,8 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnWaves()
     {
+        float elapsedTime = 0f; // Track elapsed time
+
         while (canSpawn)
         {
             // Spawn the enemies for the current wave
@@ -60,6 +67,23 @@ public class EnemySpawner : MonoBehaviour
 
             // Wait for the wave interval before starting the next wave
             yield return new WaitForSeconds(waveInterval);
+
+            // Update elapsed time
+            elapsedTime += waveInterval;
+
+            // Check if it's time to spawn a specific enemy based on the elapsed time
+            if (elapsedTime >= 60f && elapsedTime < 120f) // Minute 1
+            {
+                SpawnEnemy(minute1EnemyPrefab);
+            }
+            else if (elapsedTime >= 120f && elapsedTime < 180f) // Minute 2
+            {
+                SpawnEnemy(minute2EnemyPrefab);
+            }
+            else if (elapsedTime >= 180f) // Minute 3
+            {
+                SpawnEnemy(minute3EnemyPrefab);
+            }
         }
     }
 
@@ -69,6 +93,7 @@ public class EnemySpawner : MonoBehaviour
         {
             if (canSpawn)
             {
+                // Spawn a random enemy prefab for the current wave
                 SpawnEnemy();
                 yield return new WaitForSeconds(spawnInterval); // Wait for the specified interval between spawns
             }
@@ -79,22 +104,28 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy()
+    // Overloaded method to spawn a specific enemy prefab
+    private void SpawnEnemy(GameObject enemyPrefab)
     {
-        // Get the bounds of the spawn area
-        Bounds bounds = spawnArea.bounds;
-
-        // Generate a random position on the border of the spawn area
-        Vector2 randomPosition = GetRandomBorderPosition(bounds);
-
-        // Randomly select an enemy prefab based on their spawn chances
-        GameObject enemyPrefab = GetRandomPrefab();
         if (enemyPrefab != null)
         {
+            // Get the bounds of the spawn area
+            Bounds bounds = spawnArea.bounds;
+
+            // Generate a random position on the border of the spawn area
+            Vector2 randomPosition = GetRandomBorderPosition(bounds);
+
             // Instantiate the enemy prefab at the random position
             GameObject enemyInstance = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
             activeEnemies.Add(enemyInstance); // Track the spawned enemy
         }
+    }
+
+    // Method to randomly select an enemy prefab based on their spawn chances
+    private void SpawnEnemy()
+    {
+        GameObject enemyPrefab = GetRandomPrefab();
+        SpawnEnemy(enemyPrefab);
     }
 
     private Vector2 GetRandomBorderPosition(Bounds bounds)
