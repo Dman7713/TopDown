@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    public int maxHitPoints = 1; // Max hit points for the enemy
+    public int maxHitPoints = 3; // Max hit points for the enemy
     public int currentHitPoints; // Current hit points
 
     // References to item prefabs
@@ -27,7 +26,8 @@ public class EnemyController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Sprite originalSprite; // Store the original sprite
     private bool isDead = false; // Track if the enemy is already dead
-    private EnemyGameManager enemyGameManager; // Reference to the EnemyGameManager
+
+    private EnemyHealthBar healthBar; // Reference to the EnemyHealthBar script
 
     private void Start()
     {
@@ -47,11 +47,15 @@ public class EnemyController : MonoBehaviour
             Debug.LogError("SpriteRenderer not found on the enemy object!");
         }
 
-        // Get the EnemyGameManager instance
-        enemyGameManager = FindObjectOfType<EnemyGameManager>();
-        if (enemyGameManager != null)
+        // Initialize health bar
+        healthBar = GetComponentInChildren<EnemyHealthBar>(); // Get the EnemyHealthBar component
+        if (healthBar != null)
         {
-            enemyGameManager.ShowHealthBar(this); // Show the health bar when the enemy is spawned
+            healthBar.Initialize(maxHitPoints); // Initialize the health bar with max health
+        }
+        else
+        {
+            Debug.LogError("EnemyHealthBar not found!");
         }
     }
 
@@ -61,10 +65,15 @@ public class EnemyController : MonoBehaviour
         {
             currentHitPoints--; // Decrease current hit points
 
+            // Update the health bar
+            if (healthBar != null)
+            {
+                healthBar.UpdateHealthBar(currentHitPoints); // Update health bar
+            }
+
             if (currentHitPoints > 0)
             {
                 StartCoroutine(HandleDamageSprite());
-                enemyGameManager.UpdateHealthBar(this); // Update health bar on damage
             }
 
             if (currentHitPoints <= 0)
@@ -94,7 +103,6 @@ public class EnemyController : MonoBehaviour
         PlayDeathEffect();
         SpawnBlood(); // Spawn blood sprite on the ground
 
-        enemyGameManager.HideHealthBar(); // Hide health bar on death
         Destroy(gameObject); // Immediately destroy the enemy
     }
 

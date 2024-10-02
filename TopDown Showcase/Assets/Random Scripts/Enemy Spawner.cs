@@ -35,20 +35,18 @@ public class EnemySpawner : MonoBehaviour
     [Range(0f, 100f)]
     public float spawnChance5;
 
-    public float spawnInterval = 2f;      // Time between spawns
-    public Collider2D spawnArea;          // The collider that defines the spawn area
+    public float initialSpawnInterval = 3f; // Initial time between spawns
+    public float minimumSpawnInterval = 0.5f; // Minimum time between spawns
+    public float totalSpawnTime = 3 * 60f; // Total time to spawn enemies (3 minutes)
 
-    public int enemiesPerWave = 5;        // Number of enemies in the first wave
-    public float waveInterval = 5f;       // Time between waves
-    public float enemyMultiplier = 1.5f;  // Multiplier for enemies each wave
+    public Collider2D spawnArea; // The collider that defines the spawn area
 
     public float enemyLifetime = 3f * 60f; // Time before enemies are destroyed (in seconds)
 
-    public GameObject deathEffectPrefab;   // Prefab to instantiate when an enemy dies
+    public GameObject deathEffectPrefab; // Prefab to instantiate when an enemy dies
 
-    private int currentWave = 1;          // The current wave number
     private List<GameObject> activeEnemies = new List<GameObject>(); // Track active enemies
-    private bool canSpawn = true;          // Flag to control spawning
+    private bool canSpawn = true; // Flag to control spawning
 
     // Flags to track if bosses have been spawned
     private bool boss1Spawned = false;
@@ -57,40 +55,44 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        // Start the wave spawning coroutine
-        StartCoroutine(SpawnWaves());
+        // Start the enemy spawning coroutine
+        StartCoroutine(SpawnEnemiesOverTime());
         StartCoroutine(DestroyEnemiesAfterTime(enemyLifetime)); // Use configurable enemy lifetime
     }
 
-    private IEnumerator SpawnWaves()
+    private IEnumerator SpawnEnemiesOverTime()
     {
-        while (canSpawn)
+        float elapsedTime = 0f; // Timer for elapsed time
+        float spawnInterval = initialSpawnInterval; // Start with the initial spawn interval
+
+        while (elapsedTime < totalSpawnTime)
         {
-            // Spawn the enemies for the current wave
-            yield return StartCoroutine(SpawnEnemiesForWave(currentWave));
+            // Spawn a random enemy prefab
+            SpawnEnemy();
 
-            // Increase the number of enemies for the next wave
-            currentWave++;
-            enemiesPerWave = Mathf.CeilToInt(enemiesPerWave * enemyMultiplier);
+            // Wait for the specified interval before spawning the next enemy
+            yield return new WaitForSeconds(spawnInterval);
 
-            // Wait for the wave interval before starting the next wave
-            yield return new WaitForSeconds(waveInterval);
+            // Update elapsed time
+            elapsedTime += spawnInterval;
 
-            // Get elapsed time using Time.time
-            float elapsedTime = Time.time;
+            // Gradually decrease the spawn interval
+            float progress = elapsedTime / totalSpawnTime; // Normalized progress from 0 to 1
+            spawnInterval = Mathf.Lerp(initialSpawnInterval, minimumSpawnInterval, progress); // Smoothly transition to the minimum spawn interval
 
-            // Spawn bosses at designated times
-            if (!boss1Spawned && elapsedTime >= boss1SpawnTime)
+            // Check for boss spawns at designated times
+            float currentTime = elapsedTime;
+            if (!boss1Spawned && currentTime >= boss1SpawnTime)
             {
                 SpawnBoss(boss1Prefab);
                 boss1Spawned = true; // Mark as spawned
             }
-            else if (!boss2Spawned && elapsedTime >= boss2SpawnTime)
+            else if (!boss2Spawned && currentTime >= boss2SpawnTime)
             {
                 SpawnBoss(boss2Prefab);
                 boss2Spawned = true; // Mark as spawned
             }
-            else if (!boss3Spawned && elapsedTime >= boss3SpawnTime)
+            else if (!boss3Spawned && currentTime >= boss3SpawnTime)
             {
                 SpawnBoss(boss3Prefab);
                 boss3Spawned = true; // Mark as spawned
@@ -98,63 +100,23 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnEnemiesForWave(int wave)
+    private void SpawnEnemy()
     {
-        for (int i = 0; i < enemiesPerWave; i++)
-        {
-            if (canSpawn)
-            {
-                // Spawn a random enemy prefab for the current wave
-                SpawnEnemy();
-                yield return new WaitForSeconds(spawnInterval); // Wait for the specified interval between spawns
-            }
-            else
-            {
-                yield break; // Stop spawning if canSpawn is false
-            }
-        }
-    }
-
-    private void SpawnEnemy(GameObject enemyPrefab)
-    {
+        GameObject enemyPrefab = GetRandomPrefab();
         if (enemyPrefab != null)
         {
             // Get the bounds of the spawn area
             Bounds bounds = spawnArea.bounds;
 
-            // Generate a random position on the border of the spawn area
-            Vector2 randomPosition = GetRandomBorderPosition(bounds);
+            // Generate a random position within the spawn area
+            Vector2 randomPosition = new Vector2(
+                Random.Range(bounds.min.x, bounds.max.x),
+                Random.Range(bounds.min.y, bounds.max.y)
+            );
 
             // Instantiate the enemy prefab at the random position
             GameObject enemyInstance = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
             activeEnemies.Add(enemyInstance); // Track the spawned enemy
-        }
-    }
-
-    private void SpawnEnemy()
-    {
-        GameObject enemyPrefab = GetRandomPrefab();
-        SpawnEnemy(enemyPrefab);
-    }
-
-    private Vector2 GetRandomBorderPosition(Bounds bounds)
-    {
-        // Randomly decide whether to spawn on the horizontal or vertical border
-        bool spawnOnHorizontalEdge = Random.Range(0f, 1f) < 0.5f;
-
-        if (spawnOnHorizontalEdge)
-        {
-            // Spawn on the top or bottom border
-            float x = Random.Range(bounds.min.x, bounds.max.x);
-            float y = Random.Range(0f, 1f) < 0.5f ? bounds.min.y : bounds.max.y; // Choose between bottom or top
-            return new Vector2(x, y);
-        }
-        else
-        {
-            // Spawn on the left or right border
-            float y = Random.Range(bounds.min.y, bounds.max.y);
-            float x = Random.Range(0f, 1f) < 0.5f ? bounds.min.x : bounds.max.x; // Choose between left or right
-            return new Vector2(x, y);
         }
     }
 
@@ -223,8 +185,11 @@ public class EnemySpawner : MonoBehaviour
             // Get the bounds of the spawn area
             Bounds bounds = spawnArea.bounds;
 
-            // Generate a random position on the border of the spawn area
-            Vector2 randomPosition = GetRandomBorderPosition(bounds);
+            // Generate a random position within the spawn area
+            Vector2 randomPosition = new Vector2(
+                Random.Range(bounds.min.x, bounds.max.x),
+                Random.Range(bounds.min.y, bounds.max.y)
+            );
 
             // Instantiate the boss prefab at the random position
             GameObject bossInstance = Instantiate(bossPrefab, randomPosition, Quaternion.identity);
@@ -241,7 +206,7 @@ public class EnemySpawner : MonoBehaviour
         // Destroy all active enemies in the spawn area
         foreach (GameObject enemy in activeEnemies)
         {
-            if (enemy != null && spawnArea.OverlapPoint(enemy.transform.position))
+            if (enemy != null)
             {
                 // Instantiate the death effect prefab at the enemy's position
                 if (deathEffectPrefab != null)

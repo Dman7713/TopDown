@@ -222,7 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0743c97e73eb4fa4896ae2db25b233c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 2
+  maxHitPoints: 2
+  currentHitPoints: 0
   itemPrefab1: {fileID: 9178902870975445760, guid: 48c3fbe61f7983a4ea1de6642e21c912, type: 3}
   chanceToSpawnItem1: 0.3
   itemPrefab2: {fileID: 343782855003445871, guid: be03aaa257660a441bbf762d5f604f53, type: 3}
@@ -233,6 +234,7 @@ MonoBehaviour:
   damageSpriteDuration: 0.2
   bloodPrefab: {fileID: 2865085146451600835, guid: b94a03a7b592c6a47a5537e6f9e1d806, type: 3}
   deathSound: {fileID: 8300000, guid: 8e6b07be2dbc2e4419c93315c135f8e5, type: 3}
+  healthBar: {fileID: 0}
 --- !u!1 &1699568484652106183
 GameObject:
   m_ObjectHideFlags: 0
