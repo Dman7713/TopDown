@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class EnemyGameManager : MonoBehaviour
 {
     public GameObject healthBarPrefab; // Prefab for the health bar
     private GameObject currentHealthBarUI; // Current health bar UI instance
@@ -30,15 +30,15 @@ public class GameManager : MonoBehaviour
         healthBarFill = currentHealthBarUI.GetComponentInChildren<Image>();
 
         // Update the health bar according to the enemy's hit points
-        UpdateHealthBar(enemy.hitPoints);
+        UpdateHealthBar(enemy);
     }
 
-    public void UpdateHealthBar(int hitPoints)
+    public void UpdateHealthBar(EnemyController enemy)
     {
-        if (healthBarFill != null)
+        if (healthBarFill != null && enemy != null)
         {
-            // Assuming hitPoints is between 0 and max hit points (1 for this example)
-            float healthPercentage = (float)hitPoints / 1;
+            // Calculate health percentage and update the fill amount
+            float healthPercentage = (float)enemy.currentHitPoints / enemy.maxHitPoints;
             healthBarFill.fillAmount = healthPercentage;
         }
     }

@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    public int hitPoints = 1; // Number of hits required to destroy this object
+    public int maxHitPoints = 1; // Max hit points for the enemy
+    public int currentHitPoints; // Current hit points
 
     // References to item prefabs
     public GameObject itemPrefab1;
@@ -26,10 +27,13 @@ public class EnemyController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Sprite originalSprite; // Store the original sprite
     private bool isDead = false; // Track if the enemy is already dead
-    private GameManager gameManager; // Reference to the GameManager
+    private EnemyGameManager enemyGameManager; // Reference to the EnemyGameManager
 
     private void Start()
     {
+        // Initialize current hit points
+        currentHitPoints = maxHitPoints;
+
         // Cache the SpriteRenderer and original sprite
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = gameObject.AddComponent<AudioSource>(); // Add an AudioSource if missing
@@ -43,11 +47,11 @@ public class EnemyController : MonoBehaviour
             Debug.LogError("SpriteRenderer not found on the enemy object!");
         }
 
-        // Get the GameManager instance
-        gameManager = FindObjectOfType<GameManager>();
-        if (gameManager != null)
+        // Get the EnemyGameManager instance
+        enemyGameManager = FindObjectOfType<EnemyGameManager>();
+        if (enemyGameManager != null)
         {
-            gameManager.ShowHealthBar(this);
+            enemyGameManager.ShowHealthBar(this); // Show the health bar when the enemy is spawned
         }
     }
 
@@ -55,15 +59,15 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet") && !isDead)
         {
-            hitPoints--;
+            currentHitPoints--; // Decrease current hit points
 
-            if (hitPoints > 0)
+            if (currentHitPoints > 0)
             {
                 StartCoroutine(HandleDamageSprite());
-                gameManager.UpdateHealthBar(hitPoints); // Update health bar on damage
+                enemyGameManager.UpdateHealthBar(this); // Update health bar on damage
             }
 
-            if (hitPoints <= 0)
+            if (currentHitPoints <= 0)
             {
                 HandleDeath(); // Handle the enemy death logic
             }
@@ -90,7 +94,7 @@ public class EnemyController : MonoBehaviour
         PlayDeathEffect();
         SpawnBlood(); // Spawn blood sprite on the ground
 
-        gameManager.HideHealthBar(); // Hide health bar on death
+        enemyGameManager.HideHealthBar(); // Hide health bar on death
         Destroy(gameObject); // Immediately destroy the enemy
     }
 

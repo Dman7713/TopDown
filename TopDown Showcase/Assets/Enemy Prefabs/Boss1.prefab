@@ -126,6 +126,8 @@ MonoBehaviour:
   damageSpriteDuration: 0.5
   bloodPrefab: {fileID: 0}
   deathSound: {fileID: 0}
+  gameManagerObject: {fileID: 870450072621478446, guid: 98e91b95dd582c143a0a40152f7bc331, type: 3}
+  healthBarPrefab: {fileID: 0}
 --- !u!114 &5150465436814169657
 MonoBehaviour:
   m_ObjectHideFlags: 0
