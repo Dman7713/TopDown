@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Needed for scene management
+using UnityEngine.SceneManagement;
 
 public class WinScreenManager : MonoBehaviour
 {
     public GameObject winScreenUI; // The UI element for the win screen
-    public Timer timerScript; // Reference to the Timer script that controls the countdown
+    public GameObject targetEnemy; // The enemy to track (set from the spawner)
 
     private void Start()
     {
@@ -14,8 +14,8 @@ public class WinScreenManager : MonoBehaviour
 
     private void Update()
     {
-        // Check if the timer has reached zero
-        if (timerScript != null && timerScript.currentTime <= 0)
+        // Check if the target enemy is null (defeated)
+        if (targetEnemy == null)
         {
             ActivateWinScreen();
         }

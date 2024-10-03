@@ -23,8 +23,11 @@ public class BulletDestroy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the object the bullet collides with has the tag "Wall" or "Enemy"
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall"))
+        // Check if the object the bullet collides with has the tag "Wall", "Enemy", "Player", or "Bullet"
+        if (collision.gameObject.CompareTag("Enemy") ||
+            collision.gameObject.CompareTag("Wall") ||
+            collision.gameObject.CompareTag("Player") ||
+            collision.gameObject.CompareTag("Bullet"))
         {
             Debug.Log("Collision detected with: " + collision.gameObject.name); // Debugging line
 
@@ -38,8 +41,8 @@ public class BulletDestroy : MonoBehaviour
                 Destroy(effect, destroyDelay); // Destroy the effect after the specified delay
             }
 
-            // Instantiate the blood prefab at the bullet's position
-            if (bloodPrefab != null)
+            // Instantiate the blood prefab at the bullet's position if colliding with an enemy
+            if (collision.gameObject.CompareTag("Enemy") && bloodPrefab != null)
             {
                 GameObject bloodInstance = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
                 Destroy(bloodInstance, bloodDuration); // Destroy the blood prefab after the specified duration

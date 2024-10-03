@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro; // Required for TextMesh Pro components
+using UnityEngine.SceneManagement; // Needed for scene management
 
 public class Timer : MonoBehaviour
 {
@@ -28,6 +29,12 @@ public class Timer : MonoBehaviour
             }
             UpdateTimerUI(); // Update the UI each frame
         }
+
+        // Check if the timer has reached zero
+        if (currentTime <= 0)
+        {
+            RestartGame(); // Restart the game
+        }
     }
 
     // Update the UI TextMesh Pro component with the current time in minutes and seconds
@@ -39,5 +46,12 @@ public class Timer : MonoBehaviour
 
         // Update the text
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    // Method to restart the game
+    private void RestartGame()
+    {
+        // Load the current scene to restart the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

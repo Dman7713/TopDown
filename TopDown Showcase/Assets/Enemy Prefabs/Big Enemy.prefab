@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 3697525510935591510}
   - component: {fileID: 3829974111561238570}
   m_Layer: 0
-  m_Name: Boss1
+  m_Name: Big Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329a1ff9dc12d2242a0fc9093413d2d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseSpeed: 3
+  chaseSpeed: 4
   chaseTriggerDistance: 100
 --- !u!114 &5442498625119521249
 MonoBehaviour:
@@ -383,12 +383,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0743c97e73eb4fa4896ae2db25b233c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 50
+  maxHitPoints: 10
   currentHitPoints: 0
-  itemPrefab1: {fileID: 9178902870975445760, guid: 48c3fbe61f7983a4ea1de6642e21c912, type: 3}
-  chanceToSpawnItem1: 0.5
+  itemPrefab1: {fileID: 1117295304639914613, guid: 79a95da069912444db101497d8e65a95, type: 3}
+  chanceToSpawnItem1: 1000
   itemPrefab2: {fileID: 343782855003445871, guid: be03aaa257660a441bbf762d5f604f53, type: 3}
-  chanceToSpawnItem2: 0.5
+  chanceToSpawnItem2: 0
   deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
   deathEffectDuration: 0.5
   damagedSprite: {fileID: 0}

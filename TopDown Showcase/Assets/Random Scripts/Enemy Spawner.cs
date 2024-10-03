@@ -5,14 +5,14 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     // Boss prefabs
-    public GameObject boss1Prefab; // Boss to spawn at specified time
-    public GameObject boss2Prefab; // Boss to spawn at specified time
-    public GameObject boss3Prefab; // Boss to spawn at specified time
+    public GameObject boss1Prefab;
+    public GameObject boss2Prefab;
+    public GameObject boss3Prefab;
 
     // Boss spawn times (in seconds)
-    public float boss1SpawnTime = 60f; // Spawn time for boss 1
-    public float boss2SpawnTime = 120f; // Spawn time for boss 2
-    public float boss3SpawnTime = 180f; // Spawn time for boss 3
+    public float boss1SpawnTime = 60f;
+    public float boss2SpawnTime = 120f;
+    public float boss3SpawnTime = 180f;
 
     // Random enemy prefabs and their spawn chances
     public GameObject enemyPrefab1;
@@ -35,67 +35,71 @@ public class EnemySpawner : MonoBehaviour
     [Range(0f, 100f)]
     public float spawnChance5;
 
-    public float initialSpawnInterval = 3f; // Initial time between spawns
-    public float minimumSpawnInterval = 0.5f; // Minimum time between spawns
-    public float totalSpawnTime = 3 * 60f; // Total time to spawn enemies (3 minutes)
+    public float initialSpawnInterval = 3f;
+    public float minimumSpawnInterval = 0.5f;
+    public float totalSpawnTime = 3 * 60f;
 
-    public Collider2D spawnArea; // The collider that defines the spawn area
+    public Collider2D spawnArea;
 
-    public float enemyLifetime = 3f * 60f; // Time before enemies are destroyed (in seconds)
+    public float enemyLifetime = 3f * 60f;
 
-    public GameObject deathEffectPrefab; // Prefab to instantiate when an enemy dies
+    public GameObject deathEffectPrefab;
 
-    private List<GameObject> activeEnemies = new List<GameObject>(); // Track active enemies
-    private bool canSpawn = true; // Flag to control spawning
+    private List<GameObject> activeEnemies = new List<GameObject>();
+    private bool canSpawn = true;
 
     // Flags to track if bosses have been spawned
     private bool boss1Spawned = false;
     private bool boss2Spawned = false;
     private bool boss3Spawned = false;
 
+    // Reference to WinScreenManager
+    private WinScreenManager winScreenManager;
+
     private void Start()
     {
+        // Find the WinScreenManager in the scene
+        winScreenManager = FindObjectOfType<WinScreenManager>();
+        if (winScreenManager == null)
+        {
+            Debug.LogError("WinScreenManager not found in the scene!");
+        }
+
         // Start the enemy spawning coroutine
         StartCoroutine(SpawnEnemiesOverTime());
-        StartCoroutine(DestroyEnemiesAfterTime(enemyLifetime)); // Use configurable enemy lifetime
+        StartCoroutine(DestroyEnemiesAfterTime(enemyLifetime));
     }
 
     private IEnumerator SpawnEnemiesOverTime()
     {
-        float elapsedTime = 0f; // Timer for elapsed time
-        float spawnInterval = initialSpawnInterval; // Start with the initial spawn interval
+        float elapsedTime = 0f;
+        float spawnInterval = initialSpawnInterval;
 
         while (elapsedTime < totalSpawnTime)
         {
-            // Spawn a random enemy prefab
             SpawnEnemy();
-
-            // Wait for the specified interval before spawning the next enemy
             yield return new WaitForSeconds(spawnInterval);
 
-            // Update elapsed time
             elapsedTime += spawnInterval;
-
-            // Gradually decrease the spawn interval
-            float progress = elapsedTime / totalSpawnTime; // Normalized progress from 0 to 1
-            spawnInterval = Mathf.Lerp(initialSpawnInterval, minimumSpawnInterval, progress); // Smoothly transition to the minimum spawn interval
+            float progress = elapsedTime / totalSpawnTime;
+            spawnInterval = Mathf.Lerp(initialSpawnInterval, minimumSpawnInterval, progress);
 
             // Check for boss spawns at designated times
             float currentTime = elapsedTime;
             if (!boss1Spawned && currentTime >= boss1SpawnTime)
             {
                 SpawnBoss(boss1Prefab);
-                boss1Spawned = true; // Mark as spawned
+                boss1Spawned = true;
             }
             else if (!boss2Spawned && currentTime >= boss2SpawnTime)
             {
                 SpawnBoss(boss2Prefab);
-                boss2Spawned = true; // Mark as spawned
+                boss2Spawned = true;
             }
             else if (!boss3Spawned && currentTime >= boss3SpawnTime)
             {
                 SpawnBoss(boss3Prefab);
-                boss3Spawned = true; // Mark as spawned
+                boss3Spawned = true;
             }
         }
     }
@@ -105,12 +109,9 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemyPrefab = GetRandomPrefab();
         if (enemyPrefab != null)
         {
-            // Get a random position on the border of the spawner object
             Vector2 randomPosition = GetRandomBorderPositionOfSpawner();
-
-            // Instantiate the enemy prefab at the random position
             GameObject enemyInstance = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
-            activeEnemies.Add(enemyInstance); // Track the spawned enemy
+            activeEnemies.Add(enemyInstance);
         }
     }
 
@@ -118,68 +119,53 @@ public class EnemySpawner : MonoBehaviour
     {
         if (bossPrefab != null)
         {
-            // Get a random position on the border of the spawner object
             Vector2 randomPosition = GetRandomBorderPositionOfSpawner();
-
-            // Instantiate the boss prefab at the random position
             GameObject bossInstance = Instantiate(bossPrefab, randomPosition, Quaternion.identity);
-            activeEnemies.Add(bossInstance); // Track the spawned boss
+            activeEnemies.Add(bossInstance);
+
+            // Notify WinScreenManager about the new boss
+            if (winScreenManager != null)
+            {
+                winScreenManager.targetEnemy = bossInstance; // Assign the boss to WinScreenManager
+                Debug.Log("Boss spawned and assigned to WinScreenManager: " + bossInstance.name);
+            }
         }
     }
 
     private GameObject GetRandomPrefab()
     {
-        // Calculate total spawn chance
         float totalChance = spawnChance1 + spawnChance2 + spawnChance3 + spawnChance4 + spawnChance5;
-
-        // Generate a random value between 0 and the total chance
         float randomValue = Random.Range(0f, totalChance);
         float cumulativeChance = 0f;
 
-        // Check which prefab to spawn based on the random value
         if (enemyPrefab1 != null)
         {
             cumulativeChance += spawnChance1;
-            if (randomValue <= cumulativeChance)
-            {
-                return enemyPrefab1;
-            }
+            if (randomValue <= cumulativeChance) return enemyPrefab1;
         }
 
         if (enemyPrefab2 != null)
         {
             cumulativeChance += spawnChance2;
-            if (randomValue <= cumulativeChance)
-            {
-                return enemyPrefab2;
-            }
+            if (randomValue <= cumulativeChance) return enemyPrefab2;
         }
 
         if (enemyPrefab3 != null)
         {
             cumulativeChance += spawnChance3;
-            if (randomValue <= cumulativeChance)
-            {
-                return enemyPrefab3;
-            }
+            if (randomValue <= cumulativeChance) return enemyPrefab3;
         }
 
         if (enemyPrefab4 != null)
         {
             cumulativeChance += spawnChance4;
-            if (randomValue <= cumulativeChance)
-            {
-                return enemyPrefab4;
-            }
+            if (randomValue <= cumulativeChance) return enemyPrefab4;
         }
 
         if (enemyPrefab5 != null)
         {
             cumulativeChance += spawnChance5;
-            if (randomValue <= cumulativeChance)
-            {
-                return enemyPrefab5;
-            }
+            if (randomValue <= cumulativeChance) return enemyPrefab5;
         }
 
         return null; // Fallback, shouldn't hit this if chances are set correctly
@@ -188,8 +174,6 @@ public class EnemySpawner : MonoBehaviour
     private Vector2 GetRandomBorderPositionOfSpawner()
     {
         Bounds bounds = spawnArea.bounds;
-
-        // Choose a random edge: 0 = top, 1 = bottom, 2 = left, 3 = right
         int edge = Random.Range(0, 4);
         Vector2 randomPosition = Vector2.zero;
 
@@ -214,25 +198,21 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator DestroyEnemiesAfterTime(float time)
     {
-        yield return new WaitForSeconds(time); // Wait for the specified time
+        yield return new WaitForSeconds(time);
+        canSpawn = false;
 
-        canSpawn = false; // Stop spawning new enemies
-
-        // Destroy all active enemies in the spawn area
         foreach (GameObject enemy in activeEnemies)
         {
             if (enemy != null)
             {
-                // Instantiate the death effect prefab at the enemy's position
                 if (deathEffectPrefab != null)
                 {
                     Instantiate(deathEffectPrefab, enemy.transform.position, Quaternion.identity);
                 }
-
-                Destroy(enemy); // Destroy the enemy
+                Destroy(enemy);
             }
         }
 
-        activeEnemies.Clear(); // Clear the list of active enemies
+        activeEnemies.Clear();
     }
 }
