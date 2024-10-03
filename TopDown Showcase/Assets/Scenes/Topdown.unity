@@ -444,9 +444,9 @@ MonoBehaviour:
   boss1Prefab: {fileID: 8480441321319189016, guid: d02784fd9c3b3de4c9a14ea82e5f8c03, type: 3}
   boss2Prefab: {fileID: 8480441321319189016, guid: d02784fd9c3b3de4c9a14ea82e5f8c03, type: 3}
   boss3Prefab: {fileID: 8480441321319189016, guid: d02784fd9c3b3de4c9a14ea82e5f8c03, type: 3}
-  boss1SpawnTime: 60
-  boss2SpawnTime: 120
-  boss3SpawnTime: 180
+  boss1SpawnTime: 30
+  boss2SpawnTime: 60
+  boss3SpawnTime: 120
   enemyPrefab1: {fileID: 655134662196245896, guid: 55b52e9b83906cd4ba020e172af7331c, type: 3}
   spawnChance1: 85
   enemyPrefab2: {fileID: 655134662196245896, guid: e001e8373be3e014cac3cf9c9f83dd55, type: 3}
@@ -457,9 +457,9 @@ MonoBehaviour:
   spawnChance4: 0
   enemyPrefab5: {fileID: 0}
   spawnChance5: 0
-  initialSpawnInterval: 3
+  initialSpawnInterval: 1.5
   minimumSpawnInterval: 0.5
-  totalSpawnTime: 180
+  totalSpawnTime: 179
   spawnArea: {fileID: 157382705}
   enemyLifetime: 180.5
   deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
@@ -569,8 +569,8 @@ Transform:
   m_GameObject: {fileID: 157382703}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.1235, y: -6.8383, z: 0}
-  m_LocalScale: {x: 34.112038, y: 15.402215, z: 1}
+  m_LocalPosition: {x: 1.2982, y: -6.8383, z: 0}
+  m_LocalScale: {x: 34.45998, y: 15.402215, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -677,7 +677,7 @@ Transform:
   m_GameObject: {fileID: 179650310}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.38, y: 0, z: 0}
+  m_LocalPosition: {x: 1.38, y: -0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45907,7 +45907,7 @@ Transform:
   m_GameObject: {fileID: 1718158926}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.933, y: -4.691, z: 0}
+  m_LocalPosition: {x: 7.79, y: -4.71, z: 0}
   m_LocalScale: {x: 0.9509, y: 0.9509, z: 0.9509}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46532,6 +46532,8 @@ MonoBehaviour:
   ammoText: {fileID: 3293318}
   shootSound: {fileID: 1912584927}
   outOfAmmoSound: {fileID: 1912584931}
+  ammoReplenishAmount: 5
+  ammoReplenishInterval: 0.5
 --- !u!114 &1912584926
 MonoBehaviour:
   m_ObjectHideFlags: 0

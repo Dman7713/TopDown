@@ -136,10 +136,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 132666429058595213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6156402, y: -190.73904}
-  m_SizeDelta: {x: 797.1654, y: 60.642}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -6.818611, y: 65.214676}
+  m_SizeDelta: {x: 586.7825, y: 44.637695}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4811605070582206811
 CanvasRenderer:
@@ -224,10 +224,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 132666429058595213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.8620443, y: -191.03073}
-  m_SizeDelta: {x: 822.2125, y: 83.3663}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -7, y: 65}
+  m_SizeDelta: {x: 605.2192, y: 61.364807}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8814357319458162104
 CanvasRenderer:
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0743c97e73eb4fa4896ae2db25b233c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 20
+  maxHitPoints: 50
   currentHitPoints: 0
   itemPrefab1: {fileID: 9178902870975445760, guid: 48c3fbe61f7983a4ea1de6642e21c912, type: 3}
   chanceToSpawnItem1: 0.5

@@ -105,18 +105,25 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemyPrefab = GetRandomPrefab();
         if (enemyPrefab != null)
         {
-            // Get the bounds of the spawn area
-            Bounds bounds = spawnArea.bounds;
-
-            // Generate a random position within the spawn area
-            Vector2 randomPosition = new Vector2(
-                Random.Range(bounds.min.x, bounds.max.x),
-                Random.Range(bounds.min.y, bounds.max.y)
-            );
+            // Get a random position on the border of the spawner object
+            Vector2 randomPosition = GetRandomBorderPositionOfSpawner();
 
             // Instantiate the enemy prefab at the random position
             GameObject enemyInstance = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
             activeEnemies.Add(enemyInstance); // Track the spawned enemy
+        }
+    }
+
+    private void SpawnBoss(GameObject bossPrefab)
+    {
+        if (bossPrefab != null)
+        {
+            // Get a random position on the border of the spawner object
+            Vector2 randomPosition = GetRandomBorderPositionOfSpawner();
+
+            // Instantiate the boss prefab at the random position
+            GameObject bossInstance = Instantiate(bossPrefab, randomPosition, Quaternion.identity);
+            activeEnemies.Add(bossInstance); // Track the spawned boss
         }
     }
 
@@ -178,23 +185,31 @@ public class EnemySpawner : MonoBehaviour
         return null; // Fallback, shouldn't hit this if chances are set correctly
     }
 
-    private void SpawnBoss(GameObject bossPrefab)
+    private Vector2 GetRandomBorderPositionOfSpawner()
     {
-        if (bossPrefab != null)
+        Bounds bounds = spawnArea.bounds;
+
+        // Choose a random edge: 0 = top, 1 = bottom, 2 = left, 3 = right
+        int edge = Random.Range(0, 4);
+        Vector2 randomPosition = Vector2.zero;
+
+        switch (edge)
         {
-            // Get the bounds of the spawn area
-            Bounds bounds = spawnArea.bounds;
-
-            // Generate a random position within the spawn area
-            Vector2 randomPosition = new Vector2(
-                Random.Range(bounds.min.x, bounds.max.x),
-                Random.Range(bounds.min.y, bounds.max.y)
-            );
-
-            // Instantiate the boss prefab at the random position
-            GameObject bossInstance = Instantiate(bossPrefab, randomPosition, Quaternion.identity);
-            activeEnemies.Add(bossInstance); // Track the spawned boss
+            case 0: // Top edge
+                randomPosition = new Vector2(Random.Range(bounds.min.x, bounds.max.x), bounds.max.y);
+                break;
+            case 1: // Bottom edge
+                randomPosition = new Vector2(Random.Range(bounds.min.x, bounds.max.x), bounds.min.y);
+                break;
+            case 2: // Left edge
+                randomPosition = new Vector2(bounds.min.x, Random.Range(bounds.min.y, bounds.max.y));
+                break;
+            case 3: // Right edge
+                randomPosition = new Vector2(bounds.max.x, Random.Range(bounds.min.y, bounds.max.y));
+                break;
         }
+
+        return randomPosition;
     }
 
     private IEnumerator DestroyEnemiesAfterTime(float time)

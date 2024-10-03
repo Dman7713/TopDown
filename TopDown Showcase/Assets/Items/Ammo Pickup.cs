@@ -8,6 +8,9 @@ public class AmmoPickup : MonoBehaviour
     public AudioClip pickupSound; // Sound to play on pickup
     private AudioSource audioSource;
 
+    private SpriteRenderer spriteRenderer;
+    private Collider2D pickupCollider;
+
     private void Start()
     {
         // Add an AudioSource component if it doesn't exist
@@ -17,8 +20,18 @@ public class AmmoPickup : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        // Ensure the AudioSource does not play on awake
+        // Ensure the AudioSource does not play on awake and set some default properties
         audioSource.playOnAwake = false;
+        audioSource.loop = false;
+
+        // Cache the SpriteRenderer and Collider2D components
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        pickupCollider = GetComponent<Collider2D>();
+
+        if (spriteRenderer == null || pickupCollider == null)
+        {
+            Debug.LogError("Missing SpriteRenderer or Collider2D on the AmmoPickup object.");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,6 +45,7 @@ public class AmmoPickup : MonoBehaviour
             {
                 // Refill ammo in the player's gun
                 gun.RefillAmmo(ammoAmount);
+
                 // Play the pickup sound and destroy the object after the sound plays
                 PlayPickupSoundAndDestroy();
             }
@@ -40,20 +54,28 @@ public class AmmoPickup : MonoBehaviour
 
     private void PlayPickupSoundAndDestroy()
     {
-        // Play the sound if a sound clip is assigned
+        // Hide the pickup visually and disable its collider
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false; // Hide the sprite
+        }
+        if (pickupCollider != null)
+        {
+            pickupCollider.enabled = false; // Disable the collider
+        }
+
+        // Play the sound if a sound clip is assigned, otherwise destroy the object immediately
         if (pickupSound != null && audioSource != null)
         {
             // Play the pickup sound
             audioSource.PlayOneShot(pickupSound);
-            // Disable the sprite renderer and collider to "hide" the object but allow sound to play
-            GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<Collider2D>().enabled = false;
-            // Destroy the object after the sound has played
+
+            // Destroy the object after the sound has finished playing
             Destroy(gameObject, pickupSound.length);
         }
         else
         {
-            // If no sound, destroy immediately
+            // If no sound is assigned, destroy the object immediately
             Destroy(gameObject);
         }
     }
