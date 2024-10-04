@@ -4,6 +4,7 @@ public class EnemyController : MonoBehaviour
 {
     public int maxHitPoints = 3; // Max hit points for the enemy
     public int currentHitPoints; // Current hit points
+    public int damageAmount = 1; // Amount of damage the enemy deals
 
     // References to item prefabs
     public GameObject itemPrefab1;
@@ -79,6 +80,15 @@ public class EnemyController : MonoBehaviour
             if (currentHitPoints <= 0)
             {
                 HandleDeath(); // Handle the enemy death logic
+            }
+        }
+        else if (collision.gameObject.CompareTag("Player") && !isDead) // Assuming you have a "Player" tag
+        {
+            // Deal damage to the player
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damageAmount); // Apply damage to the player
             }
         }
     }

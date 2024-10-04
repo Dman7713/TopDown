@@ -33,10 +33,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5269344039057358391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -6.8186035, y: 65.214676}
-  m_SizeDelta: {x: 586.7825, y: 44.637695}
+  m_SizeDelta: {x: -599.2175, y: 44.637695}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8660021237404429043
 CanvasRenderer:
@@ -192,8 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0743c97e73eb4fa4896ae2db25b233c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 50
+  maxHitPoints: 80
   currentHitPoints: 0
+  damageAmount: 1
   itemPrefab1: {fileID: 1117295304639914613, guid: 79a95da069912444db101497d8e65a95, type: 3}
   chanceToSpawnItem1: 0
   itemPrefab2: {fileID: 1117295304639914613, guid: 79a95da069912444db101497d8e65a95, type: 3}
@@ -450,10 +451,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5269344039057358391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -7, y: 65}
-  m_SizeDelta: {x: 605.2192, y: 61.364807}
+  m_SizeDelta: {x: -580.7808, y: 61.364807}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4280947784801067544
 CanvasRenderer:

@@ -56,6 +56,9 @@ public class EnemySpawner : MonoBehaviour
     // Reference to WinScreenManager
     private WinScreenManager winScreenManager;
 
+    // Track third boss instance
+    private GameObject thirdBossInstance;
+
     private void Start()
     {
         // Find the WinScreenManager in the scene
@@ -98,7 +101,7 @@ public class EnemySpawner : MonoBehaviour
             }
             else if (!boss3Spawned && currentTime >= boss3SpawnTime)
             {
-                SpawnBoss(boss3Prefab);
+                thirdBossInstance = SpawnBoss(boss3Prefab); // Track the third boss
                 boss3Spawned = true;
             }
         }
@@ -115,7 +118,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnBoss(GameObject bossPrefab)
+    private GameObject SpawnBoss(GameObject bossPrefab)
     {
         if (bossPrefab != null)
         {
@@ -123,13 +126,10 @@ public class EnemySpawner : MonoBehaviour
             GameObject bossInstance = Instantiate(bossPrefab, randomPosition, Quaternion.identity);
             activeEnemies.Add(bossInstance);
 
-            // Notify WinScreenManager about the new boss
-            if (winScreenManager != null)
-            {
-                winScreenManager.targetEnemy = bossInstance; // Assign the boss to WinScreenManager
-                Debug.Log("Boss spawned and assigned to WinScreenManager: " + bossInstance.name);
-            }
+            // Return the boss instance to track it
+            return bossInstance;
         }
+        return null;
     }
 
     private GameObject GetRandomPrefab()
@@ -214,5 +214,14 @@ public class EnemySpawner : MonoBehaviour
         }
 
         activeEnemies.Clear();
+    }
+
+    private void Update()
+    {
+        // Check if the third boss is destroyed to trigger the win screen
+        if (thirdBossInstance == null && boss3Spawned && winScreenManager != null)
+        {
+            winScreenManager.ActivateWinScreen(); // Trigger the win UI when third boss is destroyed
+        }
     }
 }

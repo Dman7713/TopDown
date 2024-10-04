@@ -34,8 +34,7 @@ public class PlayerHealth : MonoBehaviour
     // Method to take damage
     public void TakeDamage(float amount)
     {
-        // Check if the damage amount is -1 and the player has health left
-        if (amount == 1f && health > 0)
+        if (health > 0)
         {
             health -= amount; // Decrease health by the specified amount
             health = Mathf.Max(health, 0); // Ensure health doesn't go below zero
@@ -54,11 +53,6 @@ public class PlayerHealth : MonoBehaviour
             {
                 Die(); // Call the die function
             }
-        }
-        else if (amount > 1f) // If damage is greater than 1, handle it here (optional)
-        {
-            // You could log or manage larger damage values differently
-            Debug.LogWarning("Damage amount greater than 1 is not handled.");
         }
     }
 
@@ -86,13 +80,17 @@ public class PlayerHealth : MonoBehaviour
     // Heal method to restore health
     public void Heal(float amount)
     {
-        health += amount; // Increase health
-        health = Mathf.Clamp(health, 0, maxHealth); // Clamp health to max value
-        UpdateHealthBar(); // Update health bar
-
-        if (health == maxHealth)
+        if (health < maxHealth) // Only heal if health is below max
         {
-            StopDamageSound(); // Stop the sound when the player is fully healed or no longer taking damage
+            health += amount; // Increase health
+            health = Mathf.Clamp(health, 0, maxHealth); // Clamp health to max value
+            UpdateHealthBar(); // Update health bar
+
+            // Stop the sound when the player is fully healed or no longer taking damage
+            if (health == maxHealth)
+            {
+                StopDamageSound();
+            }
         }
     }
 
@@ -124,10 +122,10 @@ public class PlayerHealth : MonoBehaviour
             TakeDamage(0.1f * Time.deltaTime); // Continuous damage over time
         }
 
-        // Stop the damage sound if the player is no longer in contact with enemies
+        // Ensure the sound stops when the player is safe
         if (!isTouchingEnemy)
         {
-            StopDamageSound(); // Ensure the sound stops when the player is safe
+            StopDamageSound(); // Stop the damage sound when safe
         }
     }
 }

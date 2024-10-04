@@ -136,10 +136,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 132666429058595213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -6.818611, y: 65.214676}
-  m_SizeDelta: {x: 586.7825, y: 44.637695}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -6.8186035, y: 65.21466}
+  m_SizeDelta: {x: -599.2175, y: 44.637695}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4811605070582206811
 CanvasRenderer:
@@ -224,10 +224,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 132666429058595213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -7, y: 65}
-  m_SizeDelta: {x: 605.2192, y: 61.364807}
+  m_SizeDelta: {x: -580.7808, y: 61.364807}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8814357319458162104
 CanvasRenderer:
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 3697525510935591510}
   - component: {fileID: 3829974111561238570}
   m_Layer: 0
-  m_Name: Big Enemy
+  m_Name: Boss1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,7 +299,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.67, y: -4.57, z: 0}
-  m_LocalScale: {x: 5.8538265, y: 5.8538265, z: 5.8538265}
+  m_LocalScale: {x: 6.7512183, y: 6.7512183, z: 6.7512183}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 132666429058595213}
@@ -383,15 +383,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0743c97e73eb4fa4896ae2db25b233c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 10
+  maxHitPoints: 45
   currentHitPoints: 0
+  damageAmount: 1
   itemPrefab1: {fileID: 1117295304639914613, guid: 79a95da069912444db101497d8e65a95, type: 3}
   chanceToSpawnItem1: 1000
   itemPrefab2: {fileID: 343782855003445871, guid: be03aaa257660a441bbf762d5f604f53, type: 3}
   chanceToSpawnItem2: 0
   deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
   deathEffectDuration: 0.5
-  damagedSprite: {fileID: 0}
+  damagedSprite: {fileID: 305458680, guid: 105d1a9162c0cac438e50d39f3ee99de, type: 3}
   damageSpriteDuration: 0.5
   bloodPrefab: {fileID: 0}
   deathSound: {fileID: 0}
