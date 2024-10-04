@@ -390,12 +390,12 @@ MonoBehaviour:
   chanceToSpawnItem1: 1000
   itemPrefab2: {fileID: 343782855003445871, guid: be03aaa257660a441bbf762d5f604f53, type: 3}
   chanceToSpawnItem2: 0
-  deathEffectPrefab: {fileID: 6989037096248358729, guid: 70b83b5ac96a23b428237e2ada426f56, type: 3}
+  deathEffectPrefab: {fileID: 2293475179732246361, guid: 8c26b4968e7f7eb4ba4cfac19bbb10af, type: 3}
   deathEffectDuration: 0.5
   damagedSprite: {fileID: 305458680, guid: 105d1a9162c0cac438e50d39f3ee99de, type: 3}
   damageSpriteDuration: 0.5
-  bloodPrefab: {fileID: 0}
-  deathSound: {fileID: 0}
+  bloodPrefab: {fileID: 2865085146451600835, guid: b94a03a7b592c6a47a5537e6f9e1d806, type: 3}
+  deathSound: {fileID: 8300000, guid: 4c0965c54cfdac149af0e9ecf3c99653, type: 3}
 --- !u!114 &5150465436814169657
 MonoBehaviour:
   m_ObjectHideFlags: 0

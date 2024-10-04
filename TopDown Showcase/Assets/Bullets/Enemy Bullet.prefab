@@ -175,4 +175,4 @@ MonoBehaviour:
   destroyDelay: 0.5
   bloodPrefab: {fileID: 2865085146451600835, guid: b94a03a7b592c6a47a5537e6f9e1d806, type: 3}
   bloodDuration: 5
-  collisionSound: {fileID: 0}
+  collisionSound: {fileID: 8300000, guid: 4c0965c54cfdac149af0e9ecf3c99653, type: 3}
