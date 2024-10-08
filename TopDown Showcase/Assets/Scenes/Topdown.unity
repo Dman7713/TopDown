@@ -46675,7 +46675,7 @@ MonoBehaviour:
   shootingSprite: {fileID: 789801357, guid: de50463e7e9c3b443ab2e32605d04065, type: 3}
   spriteSwitchInterval: 0.05
   currentAmmo: 100
-  maxAmmoSize: 1000
+  maxAmmoSize: 250
   ammoText: {fileID: 3293318}
   shootSound: {fileID: 1912584927}
   outOfAmmoSound: {fileID: 1912584931}
@@ -49090,5 +49090,5 @@ SceneRoots:
   - {fileID: 974109183}
   - {fileID: 397753274}
   - {fileID: 406974040}
-  - {fileID: 810935609}
   - {fileID: 1630475883}
+  - {fileID: 810935609}
